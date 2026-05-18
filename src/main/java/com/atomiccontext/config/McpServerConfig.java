@@ -16,14 +16,20 @@ import org.springframework.context.annotation.Configuration;
  * {@link ParticleTools}, {@link MaterialTools}) with the Spring AI MCP
  * server so that they are discoverable by connected AI clients.</p>
  *
- * <p>Transport is automatically configured as {@code stdio} by the
- * {@code spring-ai-mcp-server-spring-boot-starter} (see
- * {@code application.properties}).</p>
+ * <p>Transport mode is selected via the active Spring profile:</p>
+ * <ul>
+ *   <li><strong>stdio</strong> (profile {@code stdio}) — for local clients such as
+ *       Claude Desktop. All logging is silenced to keep the stdin/stdout pipe clean.
+ *       Launch with: {@code --spring.profiles.active=stdio}</li>
+ *   <li><strong>SSE/HTTP</strong> (profile {@code sse}, default) — exposes the MCP
+ *       server over HTTP using Server-Sent Events on
+ *       {@code /sse/atomic-context} (port 8080).
+ *       Launch with: {@code --spring.profiles.active=sse}</li>
+ * </ul>
  *
- * <p><strong>Phase 2 (SSE/HTTP):</strong> add
- * {@code spring-ai-mcp-server-webmvc-spring-boot-starter} to
- * {@code pom.xml} and set
- * {@code spring.ai.mcp.server.transport=sse} — no tool changes needed.</p>
+ * <p>No changes to {@code @Tool} methods are needed when switching profiles —
+ * transport is fully controlled by {@code application-stdio.properties} and
+ * {@code application-sse.properties}.</p>
  */
 @Configuration
 public class McpServerConfig {
