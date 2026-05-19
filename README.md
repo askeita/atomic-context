@@ -74,33 +74,116 @@ cd atomic-context
 mvn clean package -DskipTests
 ```
 
-### Run (stdio — Claude Desktop)
+---
+
+## Transport modes
+
+The server supports two transport modes, selected via a Spring profile.
+The `@Tool` methods are identical in both modes — only the transport layer changes.
+
+### stdio — Claude Desktop (local)
+
+Communicates over stdin/stdout. Logging and banner output are disabled, and the
+web application type is forced to `none` to keep the stdio pipe clean.
 
 ```bash
-java -jar target/atomic-context-1.0.0.jar
+java -jar target/atomic-context-1.0.0.jar --spring.profiles.active=stdio
 ```
 
-### Claude Desktop configuration
+**Claude Desktop configuration**
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`
-(macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
+or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "atomic-context": {
       "command": "java",
-      "args": ["-jar", "/absolute/path/to/atomic-context-1.0.0.jar"]
+      "args": [
+        "-jar",
+        "/absolute/path/to/atomic-context-1.0.0.jar",
+        "--spring.profiles.active=stdio"
+      ]
     }
   }
 }
 ```
 
-### Phase 2 — SSE/HTTP transport
+---
 
-1. Uncomment the SSE lines in `src/main/resources/application.properties`
-2. Add `spring-ai-mcp-server-webmvc-spring-boot-starter` to `pom.xml`
-3. No changes to `@Tool` methods required
+### SSE/HTTP — networked clients (default)
+
+Exposes the MCP server over HTTP using Server-Sent Events.
+This is the default profile when no `--spring.profiles.active` flag is provided.
+
+```bash
+# Default (sse profile)
+java -jar target/atomic-context-1.0.0.jar
+
+# Explicit
+java -jar target/atomic-context-1.0.0.jar --spring.profiles.active=sse
+```
+
+| Endpoint | URL |
+|---|---|
+| SSE stream | `http://localhost:8080/sse/atomic-context` |
+| MCP messages | `http://localhost:8080/mcp/message` |
+
+**MCP client configuration**
+
+```json
+{
+  "mcpServers": {
+    "atomic-context": {
+      "url": "http://localhost:8080/sse/atomic-context"
+    }
+  }
+}
+```
+
+**Production deployment**
+
+The port and SSE path can be overridden at runtime without any code changes:
+
+```bash
+java -jar atomic-context-1.0.0.jar \
+  --spring.profiles.active=sse \
+  --server.port=9090 \
+  --spring.ai.mcp.server.sse-endpoint=/sse/atomic-context
+```
+
+Or via environment variables (Spring Boot maps them automatically):
+
+```bash
+export SERVER_PORT=9090
+export SPRING_AI_MCP_SERVER_SSE_ENDPOINT=/sse/atomic-context
+java -jar atomic-context-1.0.0.jar --spring.profiles.active=sse
+```
+
+For HTTPS in production, place a reverse proxy (Nginx, Caddy) in front and proxy to the local port.
+Critical Nginx settings for SSE:
+
+```nginx
+location /sse/atomic-context {
+    proxy_pass         http://127.0.0.1:8080/sse/atomic-context;
+    proxy_http_version 1.1;
+    proxy_set_header   Connection "";
+    proxy_buffering    off;
+    proxy_cache        off;
+    proxy_read_timeout 24h;
+}
+```
+
+---
+
+## Configuration files
+
+| File | Purpose |
+|---|---|
+| `application.properties` | Shared config: MCP metadata, SQLite datasource, JPA, logging |
+| `application-sse.properties` | SSE transport settings (port, endpoint path) |
+| `application-stdio.properties` | stdio transport + full logging blackout |
 
 ---
 
