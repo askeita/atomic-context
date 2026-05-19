@@ -83,7 +83,8 @@ The `@Tool` methods are identical in both modes — only the transport layer cha
 
 ### stdio — Claude Desktop (local)
 
-Communicates over stdin/stdout. All logging is silenced to keep the pipe clean.
+Communicates over stdin/stdout. Logging and banner output are disabled, and the
+web application type is forced to `none` to keep the stdio pipe clean.
 
 ```bash
 java -jar target/atomic-context-1.0.0.jar --spring.profiles.active=stdio
