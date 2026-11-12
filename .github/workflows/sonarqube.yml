@@ -57,7 +57,7 @@ jobs:
         run: mvn -B verify --no-transfer-progress
 
       - name: Analyze with SonarQube
-        uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
+        uses: SonarSource/sonarqube-scan-action@e805d875275f728fac1885b413934be6d7c63f65 # v8.4.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     # Generate a token on SonarQube > My Account > Security
@@ -68,5 +68,4 @@ jobs:
             -Dsonar.projectName=atomic-context
             -Dsonar.java.source=21
             -Dsonar.sources=src/main/java
-            -Dsonar.tests=src/test/java
             -Dsonar.java.binaries=target/classes
