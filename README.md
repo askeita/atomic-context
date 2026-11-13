@@ -85,6 +85,7 @@ The `@Tool` methods are identical in both modes — only the transport layer cha
 
 Communicates over stdin/stdout. Logging and banner output are disabled, and the
 web application type is forced to `none` to keep the stdio pipe clean.
+The stdio profile enables Spring AI's stdio transport.
 
 ```bash
 java -jar target/atomic-context-1.0.0.jar --spring.profiles.active=stdio
@@ -108,6 +109,14 @@ or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
     }
   }
 }
+```
+
+**Claude Code configuration**
+
+```bash
+claude mcp add --transport stdio atomic-context -- \
+  java -jar /absolute/path/to/atomic-context-1.0.0.jar \
+  --spring.profiles.active=stdio
 ```
 
 ---
