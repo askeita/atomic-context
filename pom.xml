@@ -26,7 +26,7 @@
         <mcp-sdk.version>1.0.1</mcp-sdk.version>
         <jackson3.version>3.1.6</jackson3.version>
         <!-- Override embedded Tomcat to fix 18 CVEs (CVE-2025-48989 et al.) -->
-        <tomcat.version>10.1.55</tomcat.version>
+        <tomcat.version>10.1.61</tomcat.version>
         <!-- Override Spring Framework to fix CVE-2026-22735 (SSE stream corruption), CVE-2026-22737 (script view path traversal) and CVE-2025-41242 (path traversal) -->
         <spring-framework.version>6.2.18</spring-framework.version>
     </properties>
@@ -152,5 +152,3 @@
         </repository>
     </repositories>
 </project>
-
-
