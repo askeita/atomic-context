@@ -85,7 +85,7 @@ INSERT OR IGNORE INTO particle_properties
 INSERT OR IGNORE INTO particle_properties
   (name, symbol, particle_type, mass_codata, mass_kg, spin, charge_codata, charge_e, lifetime, source, pdg_year) VALUES
   ('gluon', 'g', 'boson',
-   '0 (theoretical; confined)',
+   '0 kg (theoretical; confined)',
    0.0, '1',
    '0 (exact)', '0',
    'stable (confined)',

@@ -50,6 +50,14 @@ public class Material {
     @Column(name = "source_db")
     private String sourceDb;
 
+    /** A catalog entry represents one material record rather than a measurement. */
+    @Column(nullable = false, columnDefinition = "varchar(32) default 'record'")
+    private String unit = "record";
+
+    /** Numeric count of this catalog entry, expressed in {@link #unit}. */
+    @Column(name = "value_numeric", nullable = false, columnDefinition = "double default 1.0")
+    private Double valueNumeric = 1.0;
+
     /** All measured/computed properties associated with this material. */
     @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MaterialProperty> properties;

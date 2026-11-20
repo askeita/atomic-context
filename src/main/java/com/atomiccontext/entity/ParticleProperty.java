@@ -43,6 +43,10 @@ public class ParticleProperty {
     @Column(name = "mass_kg")
     private Double massKg;
 
+    /** Unit for the mass value. */
+    @Column(nullable = false, columnDefinition = "varchar(32) default 'kg'")
+    private String unit = "kg";
+
     /** Spin quantum number as a string, e.g. {@code "1/2"}, {@code "1"}, {@code "0"}. */
     private String spin;
 
