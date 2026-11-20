@@ -87,7 +87,7 @@ INSERT OR IGNORE INTO physical_constants
   (symbol, name, value_codata, value_numeric, unit, uncertainty, source, codata_year, category) VALUES
   ('alpha','fine-structure constant',
    '7.297 352 5643 × 10^-3 (u_r = 1.6 × 10^-10)',
-   7.2973525643e-3, '', 'u_r = 1.6 × 10^-10',
+   7.2973525643e-3, '1', 'u_r = 1.6 × 10^-10',
    'NIST CODATA 2022 — https://doi.org/10.18434/T4WW24', 2022, 'atomic');
 INSERT OR IGNORE INTO physical_constants
   (symbol, name, value_codata, value_numeric, unit, uncertainty, source, codata_year, category) VALUES
@@ -141,7 +141,7 @@ INSERT OR IGNORE INTO physical_constants
   (symbol, name, value_codata, value_numeric, unit, uncertainty, source, codata_year, category) VALUES
   ('g_e',  'electron g-factor',
    '-2.002 319 304 360 92 (u_r = 1.7 × 10^-13)',
-   -2.00231930436092, '', 'u_r = 1.7 × 10^-13',
+   -2.00231930436092, '1', 'u_r = 1.7 × 10^-13',
    'NIST CODATA 2022 — https://doi.org/10.18434/T4WW24', 2022, 'atomic');
 INSERT OR IGNORE INTO physical_constants
   (symbol, name, value_codata, value_numeric, unit, uncertainty, source, codata_year, category) VALUES

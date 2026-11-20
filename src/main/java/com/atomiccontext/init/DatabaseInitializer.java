@@ -38,8 +38,8 @@ public class DatabaseInitializer implements ApplicationRunner {
      * sorts them alphabetically, and executes each statement sequentially.
      *
      * <p>Lines starting with {@code --} (SQL comments) and blank lines are
-     * skipped. Statements that fail (e.g. duplicate-key violations) are
-     * silently skipped at {@code DEBUG} level.</p>
+     * skipped. Seed statements use {@code INSERT OR IGNORE} for idempotence;
+     * any other SQL error is allowed to fail startup.</p>
      *
      * @param args application arguments (not used)
      * @throws Exception if the resource resolver or I/O operations fail
@@ -63,11 +63,7 @@ public class DatabaseInitializer implements ApplicationRunner {
                     if (trimmed.endsWith(";")) {
                         String sql = sb.toString().trim();
                         if (!sql.isEmpty()) {
-                            try {
-                                jdbcTemplate.execute(sql.substring(0, sql.length() - 1));
-                            } catch (Exception e) {
-                                log.debug("Skipped (likely duplicate): {}", e.getMessage());
-                            }
+                            jdbcTemplate.execute(sql.substring(0, sql.length() - 1));
                         }
                         sb.setLength(0);
                     }

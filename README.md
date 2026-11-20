@@ -95,8 +95,13 @@ source so the answer can be checked and cited.
 
 ```bash
 cd atomic-context
-mvn clean package -DskipTests
+mvn test
+mvn clean package
 ```
+
+The test suite uses isolated SQLite databases and local MCP clients, so it
+requires no external services or pre-existing database. Both CI workflows run
+the tests before completing their analyses.
 
 ---
 
