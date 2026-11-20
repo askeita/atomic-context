@@ -58,6 +58,30 @@ any MCP-compatible client (Claude Desktop, Cursor, Continue.dev …) can call.
 | `optical` | refractive_index, absorption_coefficient, optical_bandgap |
 | `magnetic` | saturation_magnetization, coercivity, relative_permeability, curie_temperature |
 
+### Example: retrieve a citable physical constant
+
+After connecting an MCP client such as Claude Desktop or Claude Code (see
+[Transport modes](#transport-modes)), ask:
+
+> Give me the Planck constant via the `get_constant` tool, with its value, unit,
+> uncertainty, year, and source.
+
+The client can call `get_constant` with `symbolOrName` set to `Planck constant`
+and present the result, for example:
+
+| Field | Value |
+|---|---|
+| Constant | Planck constant (`h`) |
+| Value | 6.626 070 15 × 10⁻³⁴ |
+| Unit | J·Hz⁻¹ (equivalent to J·s) |
+| Uncertainty | 0 (exact, by definition in the 2019 SI) |
+| Year | CODATA 2022 |
+| Category | universal |
+| Source | NIST CODATA 2022, https://doi.org/10.18434/T4WW24 |
+
+The presentation may vary by client; the tool supplies the value and its
+source so the answer can be checked and cited.
+
 ---
 
 ## Build & run
